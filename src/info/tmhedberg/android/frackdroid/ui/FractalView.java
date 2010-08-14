@@ -39,7 +39,7 @@ implements SurfaceHolder.Callback {
 	}
 	
 	@Override
-	public boolean onTouchEvent(MotionEvent event) {
+	public boolean onTouchEvent(final MotionEvent event) {
 		return thread.handleTouchEvent(event);
 	}
 	
@@ -67,7 +67,7 @@ implements SurfaceHolder.Callback {
 			}
 		}
 		
-		public boolean handleTouchEvent(MotionEvent event) {
+		public boolean handleTouchEvent(final MotionEvent event) {
 			return true;
 		}
 		
