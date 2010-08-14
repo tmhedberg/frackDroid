@@ -1,6 +1,7 @@
 package info.tmhedberg.android.frackdroid.ui;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -55,6 +56,22 @@ implements SurfaceHolder.Callback {
 		
 		public DrawingThread(final SurfaceHolder surfaceHolder) {
 			this.surfaceHolder = surfaceHolder;
+		}
+		
+		@Override
+		public void run() {
+			while (running) {
+				final Canvas canvas = surfaceHolder.lockCanvas();
+				synchronized (surfaceHolder) {
+					doDraw(canvas);
+				}
+				if (canvas != null)
+					surfaceHolder.unlockCanvasAndPost(canvas);
+			}
+		}
+		
+		private void doDraw(Canvas canvas) {
+			
 		}
 		
 		public void setRunning(final boolean running) {
