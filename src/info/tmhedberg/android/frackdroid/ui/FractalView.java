@@ -1,6 +1,7 @@
 package info.tmhedberg.android.frackdroid.ui;
 
 import android.content.Context;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -37,6 +38,11 @@ implements SurfaceHolder.Callback {
 		}
 	}
 	
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		return thread.handleTouchEvent(event);
+	}
+	
 	private class DrawingThread
 	extends Thread {
 		
@@ -59,6 +65,10 @@ implements SurfaceHolder.Callback {
 				canvasWidth = width;
 				canvasHeight = height;
 			}
+		}
+		
+		public boolean handleTouchEvent(MotionEvent event) {
+			return true;
 		}
 		
 	}
