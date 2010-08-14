@@ -8,6 +8,8 @@ public class FractalView
 extends SurfaceView
 implements SurfaceHolder.Callback {
 	
+	private final DrawingThread thread = new DrawingThread();
+	
 	public FractalView(final Context context) {
 		super(context);
 	}
@@ -24,6 +26,11 @@ implements SurfaceHolder.Callback {
 	
 	@Override
 	public void surfaceDestroyed(final SurfaceHolder holder) {
+		
+	}
+	
+	private class DrawingThread
+	extends Thread {
 		
 	}
 	
