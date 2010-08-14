@@ -11,10 +11,15 @@ public class FractalView
 extends SurfaceView
 implements SurfaceHolder.Callback {
 	
-	private final DrawingThread thread = new DrawingThread(getHolder());
+	private final SurfaceHolder surfaceHolder = getHolder();
+	private final DrawingThread thread = new DrawingThread(surfaceHolder);
 	
 	public FractalView(final Context context, final AttributeSet attrs) {
+		
 		super(context);
+		
+		surfaceHolder.addCallback(this);
+		
 	}
 	
 	@Override
