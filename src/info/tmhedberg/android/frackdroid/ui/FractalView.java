@@ -21,16 +21,30 @@ implements SurfaceHolder.Callback {
 	
 	@Override
 	public void surfaceCreated(final SurfaceHolder holder) {
-		
+		thread.setRunning(true);
+		thread.start();
 	}
 	
 	@Override
 	public void surfaceDestroyed(final SurfaceHolder holder) {
-		
+		boolean retry = true;
+		thread.setRunning(false);
+		while (retry) {
+			try {
+				thread.join();
+				retry = false;
+			} catch (InterruptedException e) {}
+		}
 	}
 	
 	private class DrawingThread
 	extends Thread {
+		
+		private boolean running = false;
+		
+		public void setRunning(final boolean running) {
+			this.running = running;
+		}
 		
 	}
 	
