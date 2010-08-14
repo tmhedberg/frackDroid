@@ -49,6 +49,7 @@ implements SurfaceHolder.Callback {
 		private boolean running = false;
 		
 		private int canvasWidth, canvasHeight;
+		private float zoomCenterx, zoomCentery;
 		
 		private final SurfaceHolder surfaceHolder;
 		
@@ -68,6 +69,8 @@ implements SurfaceHolder.Callback {
 		}
 		
 		public boolean handleTouchEvent(final MotionEvent event) {
+			zoomCenterx = event.getX();
+			zoomCentery = event.getY();
 			return true;
 		}
 		
