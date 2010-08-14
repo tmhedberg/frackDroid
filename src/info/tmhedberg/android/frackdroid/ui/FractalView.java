@@ -8,7 +8,7 @@ public class FractalView
 extends SurfaceView
 implements SurfaceHolder.Callback {
 	
-	private final DrawingThread thread = new DrawingThread();
+	private final DrawingThread thread = new DrawingThread(getHolder());
 	
 	public FractalView(final Context context) {
 		super(context);
@@ -16,7 +16,7 @@ implements SurfaceHolder.Callback {
 	
 	@Override
 	public void surfaceChanged(final SurfaceHolder holder, final int format, final int width, final int height) {
-		
+		thread.setSurfaceSize(width, height);
 	}
 	
 	@Override
@@ -42,8 +42,23 @@ implements SurfaceHolder.Callback {
 		
 		private boolean running = false;
 		
+		private int canvasWidth, canvasHeight;
+		
+		private final SurfaceHolder surfaceHolder;
+		
+		public DrawingThread(final SurfaceHolder surfaceHolder) {
+			this.surfaceHolder = surfaceHolder;
+		}
+		
 		public void setRunning(final boolean running) {
 			this.running = running;
+		}
+		
+		public void setSurfaceSize(final int width, final int height) {
+			synchronized (surfaceHolder) {
+				canvasWidth = width;
+				canvasHeight = height;
+			}
 		}
 		
 	}
