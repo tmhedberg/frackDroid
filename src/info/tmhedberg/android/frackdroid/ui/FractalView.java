@@ -3,6 +3,7 @@ package info.tmhedberg.android.frackdroid.ui;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -98,14 +99,26 @@ implements SurfaceHolder.Callback {
 			while (running) {
 				final Canvas canvas = surfaceHolder.lockCanvas();
 				synchronized (surfaceHolder) {
-					doDraw(canvas);
+					drawFrame(canvas);
 				}
 				if (canvas != null)
 					surfaceHolder.unlockCanvasAndPost(canvas);
 			}
 		}
 		
-		private void doDraw(Canvas canvas) {
+		private void drawFrame(final Canvas canvas) {
+			
+			canvas.drawColor(Color.BLUE);
+			
+			final int[][] frameBuffer = fractal.render();
+			
+			for (int row = 0; row < canvasHeight; row++) {
+				for (int col = 0; col < canvasWidth; col++) {
+					final Paint paint = new Paint();
+					paint.setColor(frameBuffer[row][col]);
+					canvas.drawPoint(row, col, paint);
+				}
+			}
 			
 		}
 		
