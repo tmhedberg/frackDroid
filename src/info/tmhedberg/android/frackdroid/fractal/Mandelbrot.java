@@ -1,7 +1,5 @@
 package info.tmhedberg.android.frackdroid.fractal;
 
-import java.awt.Color;
-
 public class Mandelbrot
 extends Fractal {
 	
@@ -20,9 +18,9 @@ extends Fractal {
 	}
 	
 	@Override
-	public Color[][] render() {
+	public int[][] render() {
 		
-		Color[][] buffer = new Color[viewportPixelHeight][viewportPixelWidth];
+		int[][] buffer = new int[viewportPixelHeight][viewportPixelWidth];
 		
 		// Iterate over pixels
 		int sqDivergenceThreshold = divergenceThreshold * divergenceThreshold;
