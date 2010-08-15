@@ -2,6 +2,7 @@ package info.tmhedberg.android.frackdroid.ui;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -12,7 +13,7 @@ implements SurfaceHolder.Callback {
 	
 	private final DrawingThread thread = new DrawingThread(getHolder());
 	
-	public FractalView(final Context context) {
+	public FractalView(final Context context, final AttributeSet attrs) {
 		super(context);
 	}
 	
