@@ -3,8 +3,8 @@ package info.tmhedberg.android.frackdroid.fractal;
 public class Mandelbrot
 extends Fractal {
 	
-	private static int DEFAULT_CONVERGENCE_THRESHOLD = 255;
-	private static int DEFAULT_DIVERGENCE_THRESHOLD = 2;
+	private static int DEFAULT_CONVERGENCE_THRESHOLD = 50;
+	private static int DEFAULT_DIVERGENCE_THRESHOLD = 8;
 	
 	private int convergenceThreshold, divergenceThreshold;
 	
