@@ -2,7 +2,9 @@ package info.tmhedberg.android.frackdroid.ui;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -20,6 +22,8 @@ implements SurfaceHolder.Callback {
 	private static final double DEFAULT_FRACTAL_ORIGIN_X = -2;
 	private static final double DEFAULT_FRACTAL_ORIGIN_Y = -2.5;
 	
+	private static final String LOG_TAG = FractalView.class.getName();
+	
 	private final SurfaceHolder surfaceHolder = getHolder();
 	private final DrawingThread thread = new DrawingThread(surfaceHolder);
 	
@@ -28,6 +32,18 @@ implements SurfaceHolder.Callback {
 		super(context);
 		
 		surfaceHolder.addCallback(this);
+		
+		try {
+			final Fractal fractal = DEFAULT_FRACTAL.newInstance();
+			fractal.setColors(Color.BLACK, Color.WHITE, Color.BLACK);
+			fractal.setViewportCoordDimensions(DEFAULT_FRACTAL_COORD_DIM_X, DEFAULT_FRACTAL_COORD_DIM_Y);
+			fractal.setViewportOrigin(DEFAULT_FRACTAL_ORIGIN_X, DEFAULT_FRACTAL_ORIGIN_Y);
+			thread.setFractal(fractal);
+		} catch (InstantiationException e) {
+			Log.e(LOG_TAG, e.getMessage(), e);
+		} catch (IllegalAccessException e) {
+			Log.e(LOG_TAG, e.getMessage(), e);
+		}
 		
 	}
 	
