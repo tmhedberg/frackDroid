@@ -118,6 +118,7 @@ implements SurfaceHolder.Callback {
 				canvasWidth = width;
 				canvasHeight = height;
 			}
+			fractal.setViewportPixelDimensions(canvasWidth, canvasHeight);
 		}
 		
 		public void setFractal(final Fractal fractal) {
