@@ -9,7 +9,7 @@ public abstract class Fractal {
 	protected double viewportOriginX, viewportOriginY;
 	protected int colorStart, colorEnd, colorSet;
 	
-	public abstract Color[][] render();
+	public abstract int[][] render();
 	
 	public void setViewportPixelDimensions(int width, int height) {
 		viewportPixelWidth = width;
