@@ -2,14 +2,28 @@ package info.tmhedberg.android.frackdroid.ui;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import info.tmhedberg.android.frackdroid.fractal.Fractal;
+import info.tmhedberg.android.frackdroid.fractal.Mandelbrot;
+
 public class FractalView
 extends SurfaceView
 implements SurfaceHolder.Callback {
+	
+	private static final Class<? extends Fractal> DEFAULT_FRACTAL = Mandelbrot.class;
+	private static final double DEFAULT_FRACTAL_COORD_DIM_X = 3;
+	private static final double DEFAULT_FRACTAL_COORD_DIM_Y = 5;
+	private static final double DEFAULT_FRACTAL_ORIGIN_X = -2;
+	private static final double DEFAULT_FRACTAL_ORIGIN_Y = -2.5;
+	
+	private static final String LOG_TAG = FractalView.class.getName();
 	
 	private final SurfaceHolder surfaceHolder = getHolder();
 	private final DrawingThread thread = new DrawingThread(surfaceHolder);
@@ -19,6 +33,18 @@ implements SurfaceHolder.Callback {
 		super(context);
 		
 		surfaceHolder.addCallback(this);
+		
+		try {
+			final Fractal fractal = DEFAULT_FRACTAL.newInstance();
+			fractal.setColors(Color.BLACK, Color.WHITE, Color.BLACK);
+			fractal.setViewportCoordDimensions(DEFAULT_FRACTAL_COORD_DIM_X, DEFAULT_FRACTAL_COORD_DIM_Y);
+			fractal.setViewportOrigin(DEFAULT_FRACTAL_ORIGIN_X, DEFAULT_FRACTAL_ORIGIN_Y);
+			thread.setFractal(fractal);
+		} catch (InstantiationException e) {
+			Log.e(LOG_TAG, e.getMessage(), e);
+		} catch (IllegalAccessException e) {
+			Log.e(LOG_TAG, e.getMessage(), e);
+		}
 		
 	}
 	
@@ -41,7 +67,9 @@ implements SurfaceHolder.Callback {
 			try {
 				thread.join();
 				retry = false;
-			} catch (InterruptedException e) {}
+			} catch (InterruptedException e) {
+				Log.e(LOG_TAG, e.getMessage(), e);
+			}
 		}
 	}
 	
@@ -58,6 +86,8 @@ implements SurfaceHolder.Callback {
 		private int canvasWidth, canvasHeight;
 		private float zoomCenterx, zoomCentery;
 		
+		private Fractal fractal;
+		
 		private final SurfaceHolder surfaceHolder;
 		
 		public DrawingThread(final SurfaceHolder surfaceHolder) {
@@ -69,14 +99,26 @@ implements SurfaceHolder.Callback {
 			while (running) {
 				final Canvas canvas = surfaceHolder.lockCanvas();
 				synchronized (surfaceHolder) {
-					doDraw(canvas);
+					drawFrame(canvas);
 				}
 				if (canvas != null)
 					surfaceHolder.unlockCanvasAndPost(canvas);
 			}
 		}
 		
-		private void doDraw(Canvas canvas) {
+		private void drawFrame(final Canvas canvas) {
+			
+			canvas.drawColor(Color.BLUE);
+			
+			final int[][] frameBuffer = fractal.render();
+			
+			for (int row = 0; row < canvasHeight; row++) {
+				for (int col = 0; col < canvasWidth; col++) {
+					final Paint paint = new Paint();
+					paint.setColor(frameBuffer[row][col]);
+					canvas.drawPoint(row, col, paint);
+				}
+			}
 			
 		}
 		
@@ -89,6 +131,11 @@ implements SurfaceHolder.Callback {
 				canvasWidth = width;
 				canvasHeight = height;
 			}
+			fractal.setViewportPixelDimensions(canvasWidth, canvasHeight);
+		}
+		
+		public void setFractal(final Fractal fractal) {
+			this.fractal = fractal;
 		}
 		
 		public boolean handleTouchEvent(final MotionEvent event) {
