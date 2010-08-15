@@ -67,6 +67,8 @@ implements SurfaceHolder.Callback {
 		private int canvasWidth, canvasHeight;
 		private float zoomCenterx, zoomCentery;
 		
+		private Fractal fractal;
+		
 		private final SurfaceHolder surfaceHolder;
 		
 		public DrawingThread(final SurfaceHolder surfaceHolder) {
@@ -98,6 +100,10 @@ implements SurfaceHolder.Callback {
 				canvasWidth = width;
 				canvasHeight = height;
 			}
+		}
+		
+		public void setFractal(final Fractal fractal) {
+			this.fractal = fractal;
 		}
 		
 		public boolean handleTouchEvent(final MotionEvent event) {
