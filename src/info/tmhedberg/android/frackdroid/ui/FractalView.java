@@ -7,9 +7,18 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import info.tmhedberg.android.frackdroid.fractal.Fractal;
+import info.tmhedberg.android.frackdroid.fractal.Mandelbrot;
+
 public class FractalView
 extends SurfaceView
 implements SurfaceHolder.Callback {
+	
+	private static final Class<? extends Fractal> DEFAULT_FRACTAL = Mandelbrot.class;
+	private static final double DEFAULT_FRACTAL_COORD_DIM_X = 3;
+	private static final double DEFAULT_FRACTAL_COORD_DIM_Y = 5;
+	private static final double DEFAULT_FRACTAL_ORIGIN_X = -2;
+	private static final double DEFAULT_FRACTAL_ORIGIN_Y = -2.5;
 	
 	private final SurfaceHolder surfaceHolder = getHolder();
 	private final DrawingThread thread = new DrawingThread(surfaceHolder);
