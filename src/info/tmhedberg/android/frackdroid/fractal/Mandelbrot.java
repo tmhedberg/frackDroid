@@ -1,4 +1,4 @@
-package info.tmhedberg.frack.fractal;
+package info.tmhedberg.android.frackdroid.fractal;
 
 import java.awt.Color;
 
