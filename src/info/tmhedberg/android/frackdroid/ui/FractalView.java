@@ -66,7 +66,9 @@ implements SurfaceHolder.Callback {
 			try {
 				thread.join();
 				retry = false;
-			} catch (InterruptedException e) {}
+			} catch (InterruptedException e) {
+				Log.e(LOG_TAG, e.getMessage(), e);
+			}
 		}
 	}
 	
