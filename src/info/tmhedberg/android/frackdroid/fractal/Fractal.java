@@ -1,13 +1,13 @@
 package info.tmhedberg.android.frackdroid.fractal;
 
-import java.awt.Color;
+import android.graphics.Color;
 
 public abstract class Fractal {
 
 	protected int viewportPixelWidth, viewportPixelHeight;
 	protected double viewportCoordWidth, viewportCoordHeight;
 	protected double viewportOriginX, viewportOriginY;
-	protected Color colorStart, colorEnd, colorSet;
+	protected int colorStart, colorEnd, colorSet;
 	
 	public abstract Color[][] render();
 	
@@ -35,26 +35,26 @@ public abstract class Fractal {
 		viewportOriginX = x;
 		viewportOriginY = y;
 	}
-	public void setColors(Color start, Color end, Color set) {
+	public void setColors(int start, int end, int set) {
 		colorStart = start;
 		colorEnd = end;
 		colorSet = set;
 	}
 	
-	protected Color getIntermediateColor(double distanceFromStart) {
+	protected int getIntermediateColor(double distanceFromStart) {
 		
 		if (distanceFromStart < 0 || distanceFromStart > 1)
 			throw new IllegalArgumentException("distanceFromStart must be between 0 and 1, inclusive");
 		
-		int RDiff = colorEnd.getRed() - colorStart.getRed();
-		int GDiff = colorEnd.getGreen() - colorStart.getGreen();
-		int BDiff = colorEnd.getBlue() - colorStart.getBlue();
+		int RDiff = Color.red(colorEnd) - Color.red(colorStart);
+		int GDiff = Color.green(colorEnd) - Color.green(colorStart);
+		int BDiff = Color.blue(colorEnd) - Color.blue(colorStart);
 		
-		int newR = (int)(colorStart.getRed() + distanceFromStart * RDiff);
-		int newG = (int)(colorStart.getGreen() + distanceFromStart * GDiff);
-		int newB = (int)(colorStart.getBlue() + distanceFromStart * BDiff);
+		int newR = (int)(Color.red(colorStart) + distanceFromStart * RDiff);
+		int newG = (int)(Color.green(colorStart) + distanceFromStart * GDiff);
+		int newB = (int)(Color.blue(colorStart) + distanceFromStart * BDiff);
 		
-		return new Color(newR, newG, newB);
+		return Color.rgb(newR, newG, newB);
 		
 	}
 	
